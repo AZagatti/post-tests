@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import api from "../services/api";
 
 interface IRepo {
@@ -13,17 +13,11 @@ interface IRepo {
 }
 
 const List = () => {
-  const history = useHistory();
   const { state } = useLocation<{ name: string } | undefined>();
 
   const [repos, setRepos] = useState<IRepo[]>([]);
 
-  console.log(repos);
-
   useEffect(() => {
-    if (!state?.name) {
-      return history.push("/");
-    }
     (async () => {
       try {
         const { data } = await api.get(`/users/${state?.name}/repos`);
@@ -32,7 +26,7 @@ const List = () => {
         console.error(err);
       }
     })();
-  }, [history, state?.name]);
+  }, [state?.name]);
 
   return (
     <div>

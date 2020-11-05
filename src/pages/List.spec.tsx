@@ -3,11 +3,7 @@ import { render, fireEvent, waitFor } from "@testing-library/react";
 import MockAdapter from "axios-mock-adapter";
 
 import List from "./List";
-// import mocksRepos from "./__mocks__/mocksRepos.json";
 import api from "../services/api";
-
-
-const mockedHistoryPush = jest.fn();
 
 const mocksRepos = [
   {
@@ -32,9 +28,6 @@ const mocksRepos = [
 
 jest.mock("react-router-dom", () => {
   return {
-    useHistory: () => ({
-      push: mockedHistoryPush,
-    }),
     useLocation: () => ({
       pathname: "/list",
       state: { name: "azagatti" },
