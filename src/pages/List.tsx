@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import api from "../services/api";
+import axios from "axios";
 
 interface IRepo {
   id: number;
@@ -20,7 +20,9 @@ const List = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await api.get(`/users/${state?.name}/repos`);
+        const { data } = await axios.get(
+          `https://api.github.com/users/${state?.name}/repos`
+        );
         setRepos(data);
       } catch (err) {
         console.error(err);
@@ -34,7 +36,7 @@ const List = () => {
       <ul>
         {repos.map((repo) => (
           <li key={repo.id}>
-            <p data-testid={`name-${repo.name}`}>{repo.name}</p>
+            <p>{repo.name}</p>
             {repo?.description ? <p>{repo.description}</p> : null}
             <div>
               <a href={repo.url} target="_blank" rel="noreferrer noopener">

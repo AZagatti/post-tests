@@ -8,7 +8,9 @@ const Home = () => {
   const handleSubmit = useCallback(
     (e: FormEvent) => {
       e.preventDefault();
-      history.push("/list", { name });
+      if (name) {
+        history.push("/list", { name });
+      }
     },
     [history, name]
   );

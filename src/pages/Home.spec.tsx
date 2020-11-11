@@ -1,6 +1,7 @@
 import React from "react";
-import Home from "./Home";
 import { render, fireEvent } from "@testing-library/react";
+
+import Home from "./Home";
 
 const mockedHistoryPush = jest.fn();
 
@@ -13,7 +14,7 @@ jest.mock("react-router-dom", () => {
 });
 
 describe("Home", () => {
-  it("should push to another page", () => {
+  it("should go to List page", () => {
     const { getByPlaceholderText, getByText } = render(<Home />);
 
     fireEvent.change(getByPlaceholderText("User"), {
@@ -21,6 +22,7 @@ describe("Home", () => {
     });
     fireEvent.click(getByText("Ver repos"));
 
+    expect(getByPlaceholderText("User")).toHaveDisplayValue('azagatti');
     expect(mockedHistoryPush).toBeCalled();
   });
 });

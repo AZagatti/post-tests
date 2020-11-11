@@ -1,9 +1,11 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
+import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
 import List from "./List";
-import api from "../services/api";
+
+const apiMock = new MockAdapter(axios);
 
 const mocksRepos = [
   {
@@ -38,12 +40,12 @@ jest.mock("react-router-dom", () => {
 
 describe("List", () => {
   it("should load repos", async () => {
-    const apiMock = new MockAdapter(api);
-    apiMock.onGet("/users/azagatti/repos").reply(200, mocksRepos);
-    const { getByTestId } = render(<List />);
+    apiMock.onGet("https://api.github.com/users/azagatti/repos").reply(200, mocksRepos);
+    const { getByText } = render(<List />);
 
     await waitFor(() => {
-      expect(getByTestId("name-Repo01")).toBeInTheDocument();
+      expect(getByText("Repo01")).toBeInTheDocument();
+      expect(getByText("Repo02")).toBeInTheDocument();
     });
   });
 });
